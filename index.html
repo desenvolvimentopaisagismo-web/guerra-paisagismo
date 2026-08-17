@@ -384,14 +384,29 @@ function build(){
 }
 build();
 
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
- document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
- document.querySelectorAll(".panel").forEach(x=>x.classList.add("hidden"));
- b.classList.add("active");document.getElementById(b.dataset.tab).classList.remove("hidden");
- if(b.dataset.tab==="historico")renderHistorico();
- if(b.dataset.tab==="agenda")renderAgenda();
- if(b.dataset.tab==="clientes")renderClientes();
- if(b.dataset.tab==="relatorio")gerarRelatorio();
+function abrirAba(b){
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(x=>x.classList.add("hidden"));
+
+  b.classList.add("active");
+
+  const painel=document.getElementById(b.dataset.tab);
+  if(painel) painel.classList.remove("hidden");
+
+  if(b.dataset.tab==="historico") renderHistorico();
+  if(b.dataset.tab==="agenda") renderAgenda();
+  if(b.dataset.tab==="clientes") renderClientes();
+  if(b.dataset.tab==="relatorio") gerarRelatorio();
+}
+
+document.querySelectorAll(".tab").forEach(b=>{
+  b.addEventListener("click",function(e){
+    e.preventDefault();
+    abrirAba(this);
+  });
+
+  b.style.touchAction="manipulation";
+  b.style.cursor="pointer";
 });
 
 document.getElementById("sintomaSelect").onchange=e=>{
