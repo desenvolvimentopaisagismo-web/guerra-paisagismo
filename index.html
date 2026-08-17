@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Guerra Paisagismo — Visitas</title>
+<meta name="theme-color" content="#1f6b45">
+<link rel="manifest" href="manifest.json">
+<style>
+:root{
+ --bg:#f4f7f5;--card:#fff;--text:#1d2a22;--muted:#68736d;--line:#dce5df;
+ --primary:#1f6b45;--primary2:#2d8758;--primary-dark:#174d34;--soft:#eaf4ee;
+ --danger:#b73c3c;--warn:#cc8d15;--ok:#2f7e45;--shadow:0 12px 28px rgba(25,50,35,.08)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text)}
+header{position:sticky;top:0;z-index:40;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:14px 15px;box-shadow:0 2px 12px rgba(0,0,0,.14)}
+.header-row{max-width:1180px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:11px}.logo{width:46px;height:46px;border-radius:14px;background:#ffffff18;border:1px solid #ffffff30;display:grid;place-items:center;font-weight:900;letter-spacing:.5px}
+.brand h1{font-size:18px;margin:0}.brand p{font-size:11px;margin:3px 0 0;opacity:.85}
+.header-tools{display:flex;gap:7px}.header-tools button{border:0;border-radius:10px;padding:9px 10px;background:#ffffff14;color:#fff;font-weight:800}
+main{max-width:1180px;margin:auto;padding:12px 12px 104px}
+.tabs{display:grid;grid-template-columns:repeat(9,1fr);gap:7px;margin:10px 0 14px}
+.tab{border:0;background:#e7ece9;color:#405047;border-radius:13px;padding:10px 5px;font-weight:800;font-size:10.5px;min-height:42px}
+.tab.active{background:var(--primary);color:#fff}
+@media(max-width:900px){.tabs{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:520px){.tabs{grid-template-columns:repeat(2,1fr)}}
+.card{background:var(--card);border:1px solid #edf1ee;border-radius:18px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.card h2{font-size:17px;margin:0 0 12px}.card h3{font-size:14px;margin:15px 0 8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:780px){.grid2,.grid3,.grid4{grid-template-columns:1fr}}
+label{display:block;font-size:11.5px;font-weight:800;color:#46534c;margin-bottom:5px}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:#fbfcfb;font:inherit;color:var(--text);outline:none}
+textarea{min-height:82px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:#76b18d;box-shadow:0 0 0 3px rgba(31,107,69,.08)}
+.field{margin-bottom:10px}.muted{font-size:11.5px;color:var(--muted);line-height:1.45}
+.badges{display:flex;gap:8px;flex-wrap:wrap}.badge{padding:8px 11px;border-radius:999px;border:1px solid var(--line);background:#fafcfb;font-size:12px;font-weight:800}.badge input{display:none}.badge:has(input:checked){background:var(--soft);border-color:#7eb596;color:var(--primary)}
+.checks{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}@media(max-width:640px){.checks{grid-template-columns:1fr}}
+.check{display:flex;align-items:center;gap:8px;padding:9px 10px;border:1px solid var(--line);border-radius:12px;background:#fafcfb}.check input{width:18px;height:18px;flex:0 0 auto}.check span{font-size:12.5px}
+.helper{background:#f0f7f3;border-left:4px solid var(--primary);padding:11px 12px;border-radius:12px;font-size:12px;line-height:1.48}.helper.red{background:#fff1f1;border-left-color:var(--danger)}.helper.yellow{background:#fff8e9;border-left-color:var(--warn)}.helper.green{background:#eef8ef;border-left-color:var(--ok)}
+.hidden{display:none!important}
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}@media(max-width:560px){.photos{grid-template-columns:repeat(2,1fr)}}.photo{aspect-ratio:1;border-radius:14px;overflow:hidden;border:1px solid var(--line);position:relative;background:#eef2ef}.photo img{width:100%;height:100%;object-fit:cover}.photo button{position:absolute;right:5px;top:5px;width:28px;height:28px;border-radius:50%;border:0;background:rgba(0,0,0,.58);color:#fff;font-weight:900}
+.actions{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px;display:flex;gap:8px;justify-content:center;z-index:50}
+.btn{border:0;border-radius:13px;padding:12px 14px;font-weight:800;font-size:12px;cursor:pointer}.btn.primary{background:var(--primary);color:#fff}.btn.secondary{background:#e8ecea;color:#33443a}.btn.danger{background:#f7e8e8;color:var(--danger)}.btn.outline{background:#fff;border:1px solid var(--line);color:#34443a}
+.list-item{padding:12px;border:1px solid var(--line);border-radius:14px;margin-bottom:8px;background:#fff}.list-item strong{display:block;font-size:14px}.list-item small{color:var(--muted)}.row-actions{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}@media(max-width:800px){.kpis{grid-template-columns:repeat(2,1fr)}}.kpi{background:#f7faf8;padding:12px;border-radius:14px;text-align:center}.kpi b{font-size:18px;display:block;color:var(--primary)}.kpi span{font-size:10.5px;color:var(--muted)}
+.signature-wrap{border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden}.signature-wrap canvas{width:100%;height:180px;display:block;touch-action:none;background:#fff}
+table{width:100%;border-collapse:collapse;font-size:12px}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#f2f6f3}
+.report{background:#fff;border-radius:16px;padding:18px;box-shadow:var(--shadow)}.report h1{font-size:20px}.report h2{font-size:14px;border-bottom:1px solid #ddd;padding-bottom:5px;margin-top:18px}.report .photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.report .photo-grid img{width:100%;height:150px;object-fit:cover;border-radius:8px}
+.searchbar{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;margin-bottom:10px}@media(max-width:700px){.searchbar{grid-template-columns:1fr}}
+.status-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}.q{background:#d84b4b}.m{background:#d9a22e}.f{background:#799184}.v{background:#3f8b57}
+.progress{height:8px;background:#e7ece9;border-radius:999px;overflow:hidden}.progress span{display:block;height:100%;background:var(--primary)}
+.client-card{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+.note{padding:8px 10px;border-radius:10px;background:#f6f9f7;font-size:11.5px;margin-top:6px}
+@media print{
+ header,.tabs,.actions,#cliente,#visita,#diagnostico,#agenda,#clientes,#historico,#backup{display:none!important}
+ #relatorio{display:block!important}.report{box-shadow:none}.card:first-child{display:none}
+ body{background:#fff}
+}
+</style>
+</head>
+<body>
+<header>
+ <div class="header-row">
+   <div class="brand"><div class="logo">GP</div><div><h1>Guerra Paisagismo — Visitas</h1><p>Gestão técnica e comercial do pós-venda</p></div></div>
+   <div class="header-tools">
+     <button id="cloudStatusBtn" onclick="document.querySelector('[data-tab=nuvem]').click()">☁ Local</button>
+   </div>
+ </div>
+</header>
+
+<main>
+ <div class="tabs">
+   <button class="tab active" data-tab="cliente">Cliente</button>
+   <button class="tab" data-tab="visita">Visita</button>
+   <button class="tab" data-tab="diagnostico">Diagnóstico</button>
+   <button class="tab" data-tab="agenda">Agenda</button>
+   <button class="tab" data-tab="clientes">Clientes</button>
+   <button class="tab" data-tab="historico">Painel</button>
+   <button class="tab" data-tab="relatorio">Relatório</button>
+   <button class="tab" data-tab="backup">Backup</button><button class="tab" data-tab="nuvem">Nuvem</button>
+ </div>
+
+ <section id="cliente" class="panel">
+   <div class="card">
+     <h2>Dados do cliente</h2>
+     <div class="grid2">
+       <div class="field"><label>Cliente</label><input id="nome"></div>
+       <div class="field"><label>Telefone</label><input id="telefone" inputmode="tel"></div>
+       <div class="field"><label>E-mail</label><input id="email" type="email"></div>
+       <div class="field"><label>Endereço</label><input id="endereco"></div>
+       <div class="field"><label>Data da visita</label><input id="dataVisita" type="date"></div>
+       <div class="field"><label>Responsável pela visita</label><input id="responsavel"></div>
+     </div>
+   </div>
+
+   <div class="card">
+     <h2>Obra / jardim</h2>
+     <div class="grid2">
+       <div class="field"><label>Nome da obra / ambiente</label><input id="nomeObra" placeholder="Ex.: Residência — Jardim frontal"></div>
+       <div class="field"><label>Data da execução</label><input id="dataExecucao" type="date"></div>
+     </div>
+     <div class="field"><label>Serviços executados</label><textarea id="servicos"></textarea></div>
+     <div class="field"><label>Espécies principais</label><textarea id="especies"></textarea></div>
+     <div class="field"><label>Histórico / observações</label><textarea id="historicoObs"></textarea></div>
+   </div>
+
+   <div class="card">
+     <h2>Satisfação</h2>
+     <div class="badges">
+       <label class="badge"><input type="radio" name="satisfacao" value="Satisfeito">Satisfeito</label>
+       <label class="badge"><input type="radio" name="satisfacao" value="Neutro">Neutro</label>
+       <label class="badge"><input type="radio" name="satisfacao" value="Insatisfeito">Insatisfeito</label>
+     </div>
+     <div class="field" style="margin-top:10px"><label>Relato do cliente</label><textarea id="relatoCliente"></textarea></div>
+     <div class="field"><label>É possível garantia?</label>
+       <select id="possivelGarantia"><option value="">Selecione</option><option>Não</option><option>Talvez</option><option>Sim</option></select>
+     </div>
+     <div class="helper red"><b>Regra:</b> se houver possibilidade de garantia, registre e encaminhe antes de transformar o problema em venda.</div>
+   </div>
+ </section>
+
+ <section id="visita" class="panel hidden">
+   <div class="card">
+     <h2>Estado geral</h2>
+     <div class="badges">
+       <label class="badge"><input type="radio" name="estado" value="Excelente">Excelente</label>
+       <label class="badge"><input type="radio" name="estado" value="Bom">Bom</label>
+       <label class="badge"><input type="radio" name="estado" value="Pequenos ajustes">Pequenos ajustes</label>
+       <label class="badge"><input type="radio" name="estado" value="Intervenção">Intervenção</label>
+       <label class="badge"><input type="radio" name="estado" value="Revitalização">Revitalização</label>
+     </div>
+   </div>
+
+   <div class="card"><h2>Checklist técnico</h2><p class="muted">Marque o que foi observado. O objetivo é registrar, não diagnosticar por impulso.</p><div id="checklist"></div></div>
+
+   <div class="card">
+     <h2>Oportunidades comerciais</h2>
+     <div class="checks" id="oportunidades"></div>
+     <div class="field" style="margin-top:10px"><label>Principal oportunidade</label><textarea id="principalOportunidade"></textarea></div>
+     <div class="grid4">
+       <div class="field"><label>Valor potencial (R$)</label><input id="valorPotencial" type="number"></div>
+       <div class="field"><label>Potencial</label><select id="potencial"><option value="">Selecione</option><option>A — Alto</option><option>B — Médio</option><option>C — Relacionamento</option></select></div>
+       <div class="field"><label>Temperatura</label><select id="temperatura"><option value="">Selecione</option><option>QUENTE</option><option>MORNA</option><option>FRIA</option></select></div>
+       <div class="field"><label>Probabilidade</label><select id="probabilidade"><option value="">Selecione</option><option value="80">Alta — 80%</option><option value="50">Média — 50%</option><option value="20">Baixa — 20%</option></select></div>
+     </div>
+     <div class="field"><label>Prazo provável</label><select id="prazo"><option value="">Selecione</option><option>Imediato</option><option>Até 30 dias</option><option>30–90 dias</option><option>3–6 meses</option><option>Futuro</option></select></div>
+   </div>
+
+   <div class="card">
+     <h2>Fotos da visita</h2>
+     <p class="muted">Foto geral + sintoma + verso da folha + caule/base + solo + área de oportunidade.</p>
+     <input id="fotoInput" type="file" accept="image/*" capture="environment" multiple>
+     <div id="photos" class="photos" style="margin-top:10px"></div>
+   </div>
+
+   <div class="card">
+     <h2>Próxima ação</h2>
+     <div class="grid2">
+       <div class="field"><label>Ação</label><select id="proximaAcao"><option value="">Selecione</option><option>Preparar orçamento</option><option>Avaliação técnica</option><option>Enviar proposta</option><option>Follow-up</option><option>Nova visita</option><option>Retorno futuro</option><option>Manter relacionamento</option></select></div>
+       <div class="field"><label>Data</label><input id="dataProxima" type="date"></div>
+     </div>
+     <div class="field"><label>Detalhes</label><textarea id="detalhesAcao"></textarea></div>
+   </div>
+
+   <div class="card">
+     <h2>Indicação</h2>
+     <div class="grid3">
+       <div class="field"><label>Foi solicitada?</label><select id="indicacaoSolicitada"><option value="">Selecione</option><option>Sim</option><option>Não</option><option>Não era o momento</option></select></div>
+       <div class="field"><label>Nome indicado</label><input id="indicadoNome"></div>
+       <div class="field"><label>Contato indicado</label><input id="indicadoContato"></div>
+     </div>
+   </div>
+
+   <div class="card">
+     <h2>Assinatura / ciência do cliente</h2>
+     <p class="muted">Opcional. Útil para registrar ciência da visita ou do relatório apresentado.</p>
+     <div class="signature-wrap"><canvas id="signature"></canvas></div>
+     <button class="btn secondary" style="margin-top:8px" onclick="limparAssinatura()">Limpar assinatura</button>
+   </div>
+ </section>
+
+ <section id="diagnostico" class="panel hidden">
+   <div class="card">
+     <h2>Diagnóstico guiado</h2>
+     <div class="field"><label>Sintoma observado</label><select id="sintomaSelect"></select></div>
+     <div id="sintomaInfo"></div>
+   </div>
+   <div class="card">
+     <h2>Semáforo técnico</h2>
+     <div class="badges">
+       <label class="badge"><input type="radio" name="semaforo" value="VERDE">🟢 VERDE</label>
+       <label class="badge"><input type="radio" name="semaforo" value="AMARELO">🟡 AMARELO</label>
+       <label class="badge"><input type="radio" name="semaforo" value="VERMELHO">🔴 VERMELHO</label>
+     </div>
+     <div class="field" style="margin-top:10px"><label>Descrição objetiva do sintoma</label><textarea id="descricaoSintoma"></textarea></div>
+     <div class="field"><label>Possíveis causas a investigar</label><textarea id="causas"></textarea></div>
+     <div class="field"><label>Perguntas feitas ao cliente</label><textarea id="perguntasCliente"></textarea></div>
+     <div class="field"><label>Encaminhamento técnico</label><textarea id="encaminhamento"></textarea></div>
+     <div class="helper yellow"><b>Lembrete:</b> “folha amarela” é observação; “falta de ferro” é hipótese.</div>
+   </div>
+   <div class="card">
+     <h2>Roteiro de investigação</h2>
+     <div class="checks" id="perguntasRapidas"></div>
+   </div>
+ </section>
+
+ <section id="agenda" class="panel hidden">
+   <div class="card">
+     <h2>Agenda de retornos</h2>
+     <div class="searchbar">
+       <input id="agendaBusca" placeholder="Buscar cliente..." oninput="renderAgenda()">
+       <select id="agendaFiltro" onchange="renderAgenda()"><option value="">Todas as ações</option><option>Follow-up</option><option>Nova visita</option><option>Avaliação técnica</option><option>Preparar orçamento</option><option>Enviar proposta</option><option>Retorno futuro</option><option>Manter relacionamento</option></select>
+       <select id="agendaPeriodo" onchange="renderAgenda()"><option value="">Todos os períodos</option><option value="atrasado">Atrasados</option><option value="7">Próximos 7 dias</option><option value="30">Próximos 30 dias</option></select>
+     </div>
+     <div id="agendaLista"></div>
+   </div>
+ </section>
+
+ <section id="clientes" class="panel hidden">
+   <div class="card">
+     <h2>Clientes e jardins</h2>
+     <div class="searchbar">
+       <input id="clienteBusca" placeholder="Buscar cliente, obra ou endereço..." oninput="renderClientes()">
+       <select id="clientePotencial" onchange="renderClientes()"><option value="">Todos os potenciais</option><option>A — Alto</option><option>B — Médio</option><option>C — Relacionamento</option></select>
+       <select id="clienteTemp" onchange="renderClientes()"><option value="">Todas as temperaturas</option><option>QUENTE</option><option>MORNA</option><option>FRIA</option></select>
+     </div>
+     <div id="clientesLista"></div>
+   </div>
+ </section>
+
+ <section id="historico" class="panel hidden">
+   <div class="card">
+     <h2>Painel do gestor</h2>
+     <div class="kpis">
+       <div class="kpi"><b id="kpiVisitas">0</b><span>visitas</span></div>
+       <div class="kpi"><b id="kpiClientes">0</b><span>clientes</span></div>
+       <div class="kpi"><b id="kpiOpp">0</b><span>oportunidades</span></div>
+       <div class="kpi"><b id="kpiValor">R$ 0</b><span>pipeline bruto</span></div>
+       <div class="kpi"><b id="kpiPond">R$ 0</b><span>pipeline ponderado</span></div>
+     </div>
+     <div class="grid2" style="margin-top:12px">
+       <div>
+         <h3>Distribuição por temperatura</h3>
+         <div id="tempResumo"></div>
+       </div>
+       <div>
+         <h3>Próximas ações</h3>
+         <div id="acoesResumo"></div>
+       </div>
+     </div>
+   </div>
+   <div class="card">
+     <h2>Histórico de visitas</h2>
+     <div class="searchbar">
+       <input id="histBusca" placeholder="Buscar..." oninput="renderHistorico()">
+       <select id="histTemp" onchange="renderHistorico()"><option value="">Todas</option><option>QUENTE</option><option>MORNA</option><option>FRIA</option></select>
+       <select id="histSemaforo" onchange="renderHistorico()"><option value="">Todos os semáforos</option><option>VERDE</option><option>AMARELO</option><option>VERMELHO</option></select>
+     </div>
+     <div id="historicoLista"></div>
+   </div>
+ </section>
+
+ <section id="relatorio" class="panel hidden">
+   <div class="card">
+     <h2>Relatório da visita</h2>
+     <p class="muted">Atualize a prévia e use “Imprimir / Salvar PDF”.</p>
+     <button class="btn primary" onclick="gerarRelatorio()">Atualizar relatório</button>
+     <button class="btn secondary" onclick="window.print()">Imprimir / Salvar PDF</button>
+   </div>
+   <div id="reportArea" class="report"></div>
+ </section>
+
+ <section id="backup" class="panel hidden">
+   <div class="card">
+     <h2>Backup e transferência de dados</h2>
+     <p class="muted">Faça backup regularmente. O arquivo pode ser importado em outro aparelho com esta mesma versão do aplicativo.</p>
+     <div class="grid2">
+       <button class="btn primary" onclick="exportarBackup()">Exportar backup JSON</button>
+       <label class="btn secondary" style="text-align:center">Importar backup<input id="importBackup" type="file" accept=".json,application/json" style="display:none"></label>
+     </div>
+     <div class="grid2" style="margin-top:10px">
+       <button class="btn secondary" onclick="exportarCSV()">Exportar oportunidades CSV</button>
+       <button class="btn secondary" onclick="exportarClientesCSV()">Exportar clientes CSV</button>
+     </div>
+     <div class="helper" style="margin-top:12px"><b>Modo atual:</b> dados salvos localmente no aparelho. Para uso simultâneo por equipe, login e sincronização em nuvem, conecte esta interface a um backend.</div>
+   </div>
+   <div class="card">
+     <h2>Manutenção</h2>
+     <button class="btn danger" onclick="limparTudo()">Apagar todos os dados deste aparelho</button>
+   </div>
+ </section>
+
+ <section id="nuvem" class="panel hidden">
+   <div class="card">
+     <h2>Conta e sincronização</h2>
+     <div id="cloudDisabled" class="helper yellow">
+       <b>Nuvem ainda não configurada.</b><br>
+       Preencha <code>config.js</code> com a URL e a chave pública do projeto Supabase e execute o arquivo
+       <code>supabase_schema.sql</code> no SQL Editor do Supabase.
+     </div>
+     <div id="cloudEnabled" class="hidden">
+       <div class="grid2">
+         <div class="field"><label>E-mail</label><input id="cloudEmail" type="email" autocomplete="username"></div>
+         <div class="field"><label>Senha</label><input id="cloudPassword" type="password" autocomplete="current-password"></div>
+       </div>
+       <div class="row-actions">
+         <button class="btn primary" id="cloudLoginBtn" onclick="cloudLogin()">Entrar</button>
+         <button class="btn secondary hidden" id="cloudLogoutBtn" onclick="cloudLogout()">Sair</button>
+       </div>
+       <div id="cloudUserBox" class="helper hidden" style="margin-top:10px"></div>
+       <div id="cloudSyncBox" class="hidden" style="margin-top:12px">
+         <div class="grid2">
+           <button class="btn primary" onclick="cloudSyncAll()">Sincronizar agora</button>
+           <button class="btn secondary" onclick="cloudPull()">Baixar da nuvem</button>
+         </div>
+         <div class="grid2" style="margin-top:8px">
+           <button class="btn secondary" onclick="cloudPush()">Enviar pendências</button>
+           <button class="btn outline" onclick="cloudRefreshStatus()">Atualizar status</button>
+         </div>
+         <div id="cloudStats" class="helper" style="margin-top:10px"></div>
+       </div>
+     </div>
+   </div>
+
+   <div class="card">
+     <h2>Como funciona</h2>
+     <p class="muted">O aplicativo continua salvando tudo localmente primeiro. Quando houver conexão e login, as visitas podem ser sincronizadas com o banco da empresa.</p>
+     <div class="helper green">
+       <b>Vendedor:</b> pode criar e editar as próprias visitas.<br>
+       <b>Gestor:</b> pode visualizar e editar as visitas da organização.<br>
+       <b>Fotos:</b> são enviadas para um bucket privado e abertas por links temporários assinados.
+     </div>
+   </div>
+ </section>
+
+</main>
+
+<div class="actions">
+ <button class="btn secondary" onclick="novaVisita()">Nova</button>
+ <button class="btn primary" onclick="salvarVisita()">Salvar visita</button>
+ <button class="btn secondary" onclick="gerarRelatorio();document.querySelector('[data-tab=relatorio]').click()">Relatório</button>
+</div>
+
+<script>
+const gruposChecklist={
+"Plantas":["Desenvolvimento adequado","Plantas amareladas","Crescimento fraco","Plantas secas/mortas","Reposição","Poda","Excesso de crescimento","Falta de volume","Pragas","Doenças","Deficiência nutricional","Espaço para novas plantas"],
+"Solo e adubação":["Solo adequado","Compactação","Matéria orgânica","Cobertura","Adubação","Correção","Erosão"],
+"Gramado":["Saudável","Falhas","Amarelamento","Ervas daninhas","Compactação","Adubação","Recuperação","Substituição","Drenagem"],
+"Irrigação":["Automática","Funcionamento adequado","Falta água","Excesso de água","Regulagem","Manutenção","Ampliação","Instalação"],
+"Drenagem":["Normal","Acúmulo de água","Solo encharcado","Erosão","Problema próximo à construção","Avaliação técnica"],
+"Pedras e acabamentos":["Bom estado","Completar pedras","Manta aparente","Bordas deslocadas","Pisantes desalinhados","Limpeza","Revitalização"],
+"Vasos":["Bom estado","Plantas adequadas","Troca de plantas","Adubação","Vasos maiores","Novos vasos externos","Vasos internos"],
+"Iluminação":["Possui iluminação","Funcionando","Manutenção","Ampliação","Destacar plantas","Valorizar fachada","Iluminar caminhos","Novo projeto"],
+"Manutenção":["Sem manutenção","Semanal","Quinzenal","Mensal","Eventual","Cliente satisfeito","Cliente insatisfeito","Oportunidade para contrato"]
+};
+const oportunidades=["Manutenção","Adubação","Poda","Tratamento","Reposição","Revitalização","Gramado","Plantas","Vasos","Irrigação","Iluminação","Ampliação","Novo projeto","Fachada","Laterais","Fundos","Piscina","Área gourmet","Interior"];
+const perguntas=["Quando percebeu o problema?","Está piorando?","Acontece só nessa planta?","Como está sendo feita a irrigação?","Mudou a irrigação?","Adubou recentemente?","Aplicou algum produto?","Houve poda?","Houve obra/pintura/limpeza próxima?","Algo mudou no ambiente?"];
+const sintomas={
+"Folhas amarelas":{investigar:"Água, drenagem, raízes, nutrição, luminosidade, envelhecimento natural e pragas.",perguntas:"Solo seco ou molhado? Começou em folhas novas ou antigas? Houve adubação? Mudou a irrigação?",alerta:"AMARELO",nota:"Clorose é sintoma, não diagnóstico."},
+"Folhas murchas":{investigar:"Verificar a umidade do solo. Solo seco: investigar falta de água. Solo molhado: investigar excesso, drenagem e raízes.",perguntas:"Quando foi irrigado? O solo fica molhado por muito tempo? Choveu muito?",alerta:"AMARELO",nota:"Não irrigar mais automaticamente."},
+"Pontas/bordas queimadas":{investigar:"Falta de água, excesso de adubo/sais, calor, vento e raízes.",perguntas:"Houve adubação recente? Qual produto/quantidade? Há vento forte?",alerta:"AMARELO",nota:"Não concluir falta de potássio automaticamente."},
+"Folha preta / fumagina":{investigar:"Insetos sugadores, melada, cochonilhas, pulgões e mosca-branca.",perguntas:"Folhas pegajosas? Há formigas? Brotações afetadas?",alerta:"AMARELO",nota:"Procure a praga associada."},
+"Pontos brancos / algodão":{investigar:"Cochonilhas. Verificar verso, axilas, brotações e caules.",perguntas:"Há formigas? Folha pegajosa? Quantas plantas?",alerta:"AMARELO",nota:"Registrar macro e foto da planta inteira."},
+"Folha furada / comida":{investigar:"Lagartas, besouros, lesmas, caracóis e mastigadores.",perguntas:"Há fezes, trilha de muco ou inseto visível?",alerta:"AMARELO",nota:"Procure quem está mastigando antes de chamar de doença."},
+"Teias finas / bronzeamento":{investigar:"Ácaros, principalmente no verso das folhas.",perguntas:"Ambiente seco/quente? Está aumentando rápido?",alerta:"AMARELO",nota:"Nem toda teia é ácaro."},
+"Manchas foliares":{investigar:"Possível doença, sol, produto, umidade, dano físico, deficiência ou insetos.",perguntas:"O que mudou antes? Houve aplicação de produto ou mudança de exposição?",alerta:"AMARELO",nota:"Não afirmar 'fungo' sem avaliação."},
+"Planta morrendo rapidamente":{investigar:"Raízes, drenagem, patógenos, dano químico, execução e ambiente.",perguntas:"Quando começou? Quantas plantas? Houve produto, obra ou encharcamento?",alerta:"VERMELHO",nota:"Encaminhar. Não improvisar."},
+"Gramado amarelo / falhas":{investigar:"Irrigação, drenagem, sombra, corte, compactação, pragas, doenças, animais e produtos.",perguntas:"Como corta? Falha coincide com sombra, área baixa ou passagem?",alerta:"AMARELO",nota:"Leia o desenho da falha."},
+"Solo encharcado":{investigar:"Drenagem, excesso de irrigação, vazamentos, desnível e solo.",perguntas:"Quando chove, acumula água? Quanto tempo leva para secar?",alerta:"VERMELHO",nota:"Solo molhado + murcha exige atenção."},
+"Raízes apertadas em vaso":{investigar:"Tamanho, drenagem, substrato e raízes saindo pelos furos.",perguntas:"Há quanto tempo está no vaso? Seca muito rápido?",alerta:"AMARELO",nota:"Pode gerar oportunidade de transplante/vaso maior."}
+};
+const KEY="guerraPaisagismoVisitasFinal";
+
+function build(){
+ const c=document.getElementById("checklist");
+ Object.entries(gruposChecklist).forEach(([g,itens])=>{
+   c.insertAdjacentHTML("beforeend",`<h3>${g}</h3><div class="checks">${itens.map(i=>`<label class="check"><input type="checkbox" data-group="${g}" value="${i}"><span>${i}</span></label>`).join("")}</div>`);
+ });
+ document.getElementById("oportunidades").innerHTML=oportunidades.map(i=>`<label class="check"><input type="checkbox" class="opp" value="${i}"><span>${i}</span></label>`).join("");
+ document.getElementById("perguntasRapidas").innerHTML=perguntas.map(i=>`<label class="check"><input type="checkbox" class="ask" value="${i}"><span>${i}</span></label>`).join("");
+ document.getElementById("sintomaSelect").innerHTML='<option value="">Selecione</option>'+Object.keys(sintomas).map(x=>`<option>${x}</option>`).join("");
+}
+build();
+
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+ document.querySelectorAll(".panel").forEach(x=>x.classList.add("hidden"));
+ b.classList.add("active");document.getElementById(b.dataset.tab).classList.remove("hidden");
+ if(b.dataset.tab==="historico")renderHistorico();
+ if(b.dataset.tab==="agenda")renderAgenda();
+ if(b.dataset.tab==="clientes")renderClientes();
+ if(b.dataset.tab==="relatorio")gerarRelatorio();
+});
+
+document.getElementById("sintomaSelect").onchange=e=>{
+ const d=sintomas[e.target.value],box=document.getElementById("sintomaInfo");
+ if(!d){box.innerHTML="";return}
+ box.innerHTML=`<div class="helper ${d.alerta==="VERMELHO"?"red":"yellow"}"><b>${d.alerta}</b><br><b>Investigar:</b> ${d.investigar}<br><b>Perguntar:</b> ${d.perguntas}<br>${d.nota}</div>`;
+ document.getElementById("causas").value=d.investigar;
+};
+
+let fotos=[];
+document.getElementById("fotoInput").onchange=async e=>{
+ for(const file of [...e.target.files])fotos.push({url:await resize(file,900,.70),nome:file.name});
+ renderFotos();e.target.value="";
+};
+function resize(file,max,q){return new Promise(resolve=>{const r=new FileReader(),i=new Image();r.onload=()=>{i.onload=()=>{const s=Math.min(1,max/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=i.width*s;c.height=i.height*s;c.getContext("2d").drawImage(i,0,0,c.width,c.height);resolve(c.toDataURL("image/jpeg",q))};i.src=r.result};r.readAsDataURL(file)})}
+function renderFotos(){document.getElementById("photos").innerHTML=fotos.map((f,i)=>`<div class="photo"><img src="${f.url}"><button onclick="fotos.splice(${i},1);renderFotos()">×</button></div>`).join("")}
+
+const canvas=document.getElementById("signature"),ctx=canvas.getContext("2d");let drawing=false;
+function fitCanvas(){const ratio=devicePixelRatio||1,rect=canvas.getBoundingClientRect();canvas.width=rect.width*ratio;canvas.height=180*ratio;ctx.setTransform(ratio,0,0,ratio,0,0);ctx.lineWidth=2;ctx.lineCap="round";ctx.strokeStyle="#17231c"}
+setTimeout(fitCanvas,120);
+function pos(e){const r=canvas.getBoundingClientRect(),p=e.touches?e.touches[0]:e;return [p.clientX-r.left,p.clientY-r.top]}
+canvas.onmousedown=canvas.ontouchstart=e=>{drawing=true;ctx.beginPath();ctx.moveTo(...pos(e));e.preventDefault()}
+canvas.onmousemove=canvas.ontouchmove=e=>{if(!drawing)return;ctx.lineTo(...pos(e));ctx.stroke();e.preventDefault()}
+window.onmouseup=window.ontouchend=()=>drawing=false;
+function limparAssinatura(){ctx.clearRect(0,0,canvas.getBoundingClientRect().width,180)}
+
+function val(id){return document.getElementById(id).value}
+function radio(n){return document.querySelector(`input[name="${n}"]:checked`)?.value||""}
+function checked(s){return [...document.querySelectorAll(s+":checked")].map(x=>x.value)}
+function checklistData(){const d={};document.querySelectorAll("#checklist input:checked").forEach(x=>(d[x.dataset.group]??=[]).push(x.value));return d}
+function db(){return JSON.parse(localStorage.getItem(KEY)||"[]")}
+function saveDB(a){localStorage.setItem(KEY,JSON.stringify(a))}
+function coleta(){
+ return {
+  id:window.editId||Date.now(),criadoEm:new Date().toISOString(),atualizadoEm:new Date().toISOString(),
+  cliente:{nome:val("nome"),telefone:val("telefone"),email:val("email"),endereco:val("endereco"),dataVisita:val("dataVisita"),responsavel:val("responsavel"),nomeObra:val("nomeObra"),dataExecucao:val("dataExecucao"),servicos:val("servicos"),especies:val("especies"),historicoObs:val("historicoObs"),satisfacao:radio("satisfacao"),relatoCliente:val("relatoCliente"),possivelGarantia:val("possivelGarantia")},
+  visita:{estado:radio("estado"),checklist:checklistData(),oportunidades:checked(".opp"),principalOportunidade:val("principalOportunidade"),valorPotencial:val("valorPotencial"),potencial:val("potencial"),temperatura:val("temperatura"),probabilidade:val("probabilidade"),prazo:val("prazo"),proximaAcao:val("proximaAcao"),dataProxima:val("dataProxima"),detalhesAcao:val("detalhesAcao"),indicacaoSolicitada:val("indicacaoSolicitada"),indicadoNome:val("indicadoNome"),indicadoContato:val("indicadoContato")},
+  diagnostico:{sintoma:val("sintomaSelect"),semaforo:radio("semaforo"),descricao:val("descricaoSintoma"),causas:val("causas"),perguntas:val("perguntasCliente"),encaminhamento:val("encaminhamento"),perguntasRapidas:checked(".ask")},
+  fotos,assinatura:canvas.toDataURL("image/png")
+ }
+}
+function salvarVisita(){
+ const d=coleta();if(!d.cliente.nome){alert("Informe o nome do cliente.");return}
+ let a=db(),i=a.findIndex(x=>x.id===d.id);if(i>=0)a[i]=d;else a.unshift(d);
+ try{saveDB(a);window.editId=d.id;alert("Visita salva com sucesso.");renderHistorico()}catch(e){alert("Armazenamento cheio. Faça backup e reduza fotos antigas.")}
+}
+function novaVisita(){if(confirm("Iniciar nova visita? Os dados não salvos serão perdidos."))location.reload()}
+function fmtBRL(v){return Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}
+function parseDate(s){return s?new Date(s+"T12:00:00"):null}
+function today(){const d=new Date();d.setHours(0,0,0,0);return d}
+
+function renderHistorico(){
+ const a=db(),q=val("histBusca").toLowerCase(),tf=val("histTemp"),sf=val("histSemaforo");
+ const f=a.filter(x=>{
+  const txt=(x.cliente.nome+" "+x.cliente.nomeObra+" "+x.cliente.endereco).toLowerCase();
+  return (!q||txt.includes(q))&&(!tf||x.visita.temperatura===tf)&&(!sf||x.diagnostico.semaforo===sf)
+ });
+ const clientes=new Set(a.map(x=>(x.cliente.nome+"|"+x.cliente.telefone).toLowerCase()));
+ document.getElementById("kpiVisitas").textContent=a.length;
+ document.getElementById("kpiClientes").textContent=clientes.size;
+ document.getElementById("kpiOpp").textContent=a.filter(x=>x.visita.principalOportunidade||x.visita.oportunidades.length).length;
+ document.getElementById("kpiValor").textContent=fmtBRL(a.reduce((s,x)=>s+Number(x.visita.valorPotencial||0),0));
+ document.getElementById("kpiPond").textContent=fmtBRL(a.reduce((s,x)=>s+Number(x.visita.valorPotencial||0)*(Number(x.visita.probabilidade||0)/100),0));
+ const temp={QUENTE:0,MORNA:0,FRIA:0,"Sem classificação":0};a.forEach(x=>temp[x.visita.temperatura||"Sem classificação"]++);
+ document.getElementById("tempResumo").innerHTML=Object.entries(temp).map(([k,n])=>`<div class="note"><b>${k}:</b> ${n}</div>`).join("");
+ const ac={};a.forEach(x=>{const k=x.visita.proximaAcao||"Sem ação";ac[k]=(ac[k]||0)+1});document.getElementById("acoesResumo").innerHTML=Object.entries(ac).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([k,n])=>`<div class="note"><b>${k}:</b> ${n}</div>`).join("");
+ document.getElementById("historicoLista").innerHTML=f.length?f.map(x=>`<div class="list-item"><strong>${dot(x.visita.temperatura)}${esc(x.cliente.nome)} — ${esc(x.cliente.nomeObra||"Jardim")}</strong><small>${esc(x.cliente.dataVisita||"Sem data")} • ${esc(x.visita.temperatura||"Sem temperatura")} • ${fmtBRL(x.visita.valorPotencial)} • ${esc(x.diagnostico.semaforo||"Sem semáforo")}</small><div class="row-actions"><button class="btn secondary" onclick="abrir(${x.id})">Abrir</button><button class="btn outline" onclick="duplicar(${x.id})">Nova visita deste cliente</button><button class="btn danger" onclick="excluir(${x.id})">Excluir</button></div></div>`).join(""):'<div class="helper">Nenhum registro encontrado.</div>';
+}
+function dot(t){return `<span class="status-dot ${t==="QUENTE"?"q":t==="MORNA"?"m":t==="FRIA"?"f":"v"}"></span>`}
+function esc(s){return String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+
+function renderAgenda(){
+ let a=db().filter(x=>x.visita.dataProxima),q=val("agendaBusca").toLowerCase(),af=val("agendaFiltro"),pf=val("agendaPeriodo"),hoje=today();
+ a=a.filter(x=>(!q||(x.cliente.nome+" "+x.cliente.nomeObra).toLowerCase().includes(q))&&(!af||x.visita.proximaAcao===af));
+ if(pf){
+  a=a.filter(x=>{const d=parseDate(x.visita.dataProxima),diff=Math.ceil((d-hoje)/86400000);return pf==="atrasado"?diff<0:diff>=0&&diff<=Number(pf)})
+ }
+ a.sort((x,y)=>x.visita.dataProxima.localeCompare(y.visita.dataProxima));
+ document.getElementById("agendaLista").innerHTML=a.length?`<table><tr><th>Data</th><th>Cliente</th><th>Ação</th><th>Oportunidade</th><th></th></tr>${a.map(x=>`<tr><td>${esc(x.visita.dataProxima)}</td><td>${esc(x.cliente.nome)}</td><td>${esc(x.visita.proximaAcao||"")}</td><td>${esc(x.visita.principalOportunidade||"")}</td><td><button class="btn secondary" onclick="abrir(${x.id})">Abrir</button></td></tr>`).join("")}</table>`:'<div class="helper">Nenhum retorno encontrado.</div>';
+}
+
+function renderClientes(){
+ const a=db(),q=val("clienteBusca").toLowerCase(),pf=val("clientePotencial"),tf=val("clienteTemp"),map=new Map();
+ a.forEach(x=>{const k=(x.cliente.nome+"|"+x.cliente.telefone).toLowerCase();if(!map.has(k))map.set(k,[]);map.get(k).push(x)});
+ let rows=[...map.values()].map(v=>v.sort((a,b)=>(b.cliente.dataVisita||"").localeCompare(a.cliente.dataVisita||""))).filter(v=>{
+  const x=v[0],txt=(x.cliente.nome+" "+x.cliente.nomeObra+" "+x.cliente.endereco).toLowerCase();
+  return (!q||txt.includes(q))&&(!pf||x.visita.potencial===pf)&&(!tf||x.visita.temperatura===tf)
+ });
+ document.getElementById("clientesLista").innerHTML=rows.length?rows.map(v=>{const x=v[0],total=v.reduce((s,z)=>s+Number(z.visita.valorPotencial||0),0);return `<div class="list-item client-card"><div><strong>${esc(x.cliente.nome)}</strong><small>${v.length} visita(s) • Última: ${esc(x.cliente.dataVisita||"-")} • Pipeline acumulado: ${fmtBRL(total)}</small><div class="note">${esc(x.cliente.nomeObra||"Jardim")} — ${esc(x.cliente.endereco||"")}</div></div><div><button class="btn secondary" onclick="duplicar(${x.id})">Nova visita</button></div></div>`}).join(""):'<div class="helper">Nenhum cliente encontrado.</div>';
+}
+
+function excluir(id){if(!confirm("Excluir esta visita?"))return;saveDB(db().filter(x=>x.id!==id));renderHistorico()}
+function duplicar(id){
+ const x=db().find(v=>v.id===id);if(!x)return;
+ location.hash="";window.editId=null;limparFormulario(false);
+ ["nome","telefone","email","endereco","responsavel","nomeObra","dataExecucao","servicos","especies","historicoObs"].forEach(k=>document.getElementById(k).value=x.cliente[k]||"");
+ document.getElementById("dataVisita").valueAsDate=new Date();
+ document.querySelector("[data-tab=cliente]").click();
+ window.scrollTo(0,0);
+}
+function abrir(id){
+ const x=db().find(v=>v.id===id);if(!x)return;window.editId=x.id;limparFormulario(false);
+ Object.entries(x.cliente).forEach(([k,v])=>{if(document.getElementById(k))document.getElementById(k).value=v||""});
+ if(x.cliente.satisfacao)document.querySelector(`input[name=satisfacao][value="${x.cliente.satisfacao}"]`)?.click();
+ if(x.visita.estado)document.querySelector(`input[name=estado][value="${x.visita.estado}"]`)?.click();
+ Object.entries(x.visita.checklist||{}).forEach(([g,itens])=>itens.forEach(i=>[...document.querySelectorAll("#checklist input")].find(z=>z.dataset.group===g&&z.value===i)?.click()));
+ (x.visita.oportunidades||[]).forEach(i=>[...document.querySelectorAll(".opp")].find(z=>z.value===i)?.click());
+ ["principalOportunidade","valorPotencial","potencial","temperatura","probabilidade","prazo","proximaAcao","dataProxima","detalhesAcao","indicacaoSolicitada","indicadoNome","indicadoContato"].forEach(k=>document.getElementById(k).value=x.visita[k]||"");
+ document.getElementById("sintomaSelect").value=x.diagnostico.sintoma||"";document.getElementById("sintomaSelect").dispatchEvent(new Event("change"));
+ document.getElementById("descricaoSintoma").value=x.diagnostico.descricao||"";document.getElementById("causas").value=x.diagnostico.causas||"";document.getElementById("perguntasCliente").value=x.diagnostico.perguntas||"";document.getElementById("encaminhamento").value=x.diagnostico.encaminhamento||"";
+ if(x.diagnostico.semaforo)document.querySelector(`input[name=semaforo][value="${x.diagnostico.semaforo}"]`)?.click();
+ (x.diagnostico.perguntasRapidas||[]).forEach(i=>[...document.querySelectorAll(".ask")].find(z=>z.value===i)?.click());
+ fotos=x.fotos||[];renderFotos();
+ if(x.assinatura){const im=new Image();im.onload=()=>ctx.drawImage(im,0,0,canvas.getBoundingClientRect().width,180);im.src=x.assinatura}
+ document.querySelector("[data-tab=cliente]").click();window.scrollTo(0,0);
+}
+function limparFormulario(resetDate=True){
+ document.querySelectorAll("input:not([type=file]):not([type=checkbox]):not([type=radio]),textarea,select").forEach(x=>x.value="");
+ document.querySelectorAll("input[type=checkbox],input[type=radio]").forEach(x=>x.checked=false);
+ fotos=[];renderFotos();limparAssinatura();if(resetDate)document.getElementById("dataVisita").valueAsDate=new Date();
+}
+
+function gerarRelatorio(){
+ const x=coleta(),ck=Object.entries(x.visita.checklist).map(([g,i])=>`<p><b>${esc(g)}:</b> ${esc(i.join(", "))}</p>`).join("");
+ document.getElementById("reportArea").innerHTML=`
+ <h1>Relatório de Visita — Guerra Paisagismo</h1>
+ <p><b>Cliente:</b> ${esc(x.cliente.nome||"-")}<br><b>Obra:</b> ${esc(x.cliente.nomeObra||"-")}<br><b>Endereço:</b> ${esc(x.cliente.endereco||"-")}<br><b>Data:</b> ${esc(x.cliente.dataVisita||"-")}<br><b>Responsável:</b> ${esc(x.cliente.responsavel||"-")}</p>
+ <h2>Satisfação e histórico</h2><p><b>Satisfação:</b> ${esc(x.cliente.satisfacao||"-")}<br><b>Possível garantia:</b> ${esc(x.cliente.possivelGarantia||"-")}</p><p>${esc(x.cliente.relatoCliente||"")}</p>
+ <h2>Estado geral</h2><p>${esc(x.visita.estado||"-")}</p>
+ <h2>Checklist técnico</h2>${ck||"<p>Sem itens marcados.</p>"}
+ <h2>Diagnóstico</h2><p><b>Sintoma:</b> ${esc(x.diagnostico.sintoma||"-")}<br><b>Semáforo:</b> ${esc(x.diagnostico.semaforo||"-")}</p><p>${esc(x.diagnostico.descricao||"")}</p><p><b>Causas a investigar:</b> ${esc(x.diagnostico.causas||"-")}</p><p><b>Encaminhamento:</b> ${esc(x.diagnostico.encaminhamento||"-")}</p>
+ <h2>Oportunidade comercial</h2><p><b>Principal:</b> ${esc(x.visita.principalOportunidade||"-")}<br><b>Valor potencial:</b> ${fmtBRL(x.visita.valorPotencial)}<br><b>Temperatura:</b> ${esc(x.visita.temperatura||"-")}<br><b>Probabilidade:</b> ${esc(x.visita.probabilidade?x.visita.probabilidade+"%":"-")}<br><b>Prazo:</b> ${esc(x.visita.prazo||"-")}</p>
+ <h2>Próxima ação</h2><p>${esc(x.visita.proximaAcao||"-")} — ${esc(x.visita.dataProxima||"-")}<br>${esc(x.visita.detalhesAcao||"")}</p>
+ <h2>Indicação</h2><p><b>Solicitada:</b> ${esc(x.visita.indicacaoSolicitada||"-")}<br><b>Indicado:</b> ${esc(x.visita.indicadoNome||"-")} ${esc(x.visita.indicadoContato||"")}</p>
+ <h2>Fotos</h2><div class="photo-grid">${x.fotos.map(f=>`<img src="${f.url}">`).join("")}</div>
+ <h2>Assinatura</h2><img src="${x.assinatura}" style="max-width:300px;max-height:120px;border-bottom:1px solid #999">`;
+}
+
+function exportarBackup(){
+ const blob=new Blob([JSON.stringify({app:"Guerra Paisagismo Visitas",versao:3,exportadoEm:new Date().toISOString(),dados:db()},null,2)],{type:"application/json"});
+ downloadBlob(blob,`backup_guerra_paisagismo_${new Date().toISOString().slice(0,10)}.json`);
+}
+document.getElementById("importBackup").onchange=async e=>{
+ const f=e.target.files[0];if(!f)return;
+ try{const j=JSON.parse(await f.text()),dados=Array.isArray(j)?j:j.dados;if(!Array.isArray(dados))throw Error();if(confirm(`Importar ${dados.length} registros e substituir os dados atuais?`)){saveDB(dados);alert("Backup importado.");renderHistorico()}}catch{alert("Arquivo de backup inválido.")}e.target.value="";
+}
+function csvCell(v){return '"'+String(v??"").replace(/"/g,'""')+'"'}
+function exportarCSV(){
+ const rows=[["Cliente","Telefone","Obra","Data visita","Oportunidade","Valor potencial","Temperatura","Probabilidade","Próxima ação","Data próxima","Semáforo"]];
+ db().forEach(x=>rows.push([x.cliente.nome,x.cliente.telefone,x.cliente.nomeObra,x.cliente.dataVisita,x.visita.principalOportunidade,x.visita.valorPotencial,x.visita.temperatura,x.visita.probabilidade,x.visita.proximaAcao,x.visita.dataProxima,x.diagnostico.semaforo]));
+ downloadBlob(new Blob(["\ufeff"+rows.map(r=>r.map(csvCell).join(";")).join("\n")],{type:"text/csv;charset=utf-8"}),"oportunidades_paisagismo.csv");
+}
+function exportarClientesCSV(){
+ const map=new Map();db().forEach(x=>{const k=(x.cliente.nome+"|"+x.cliente.telefone).toLowerCase();if(!map.has(k))map.set(k,x)});
+ const rows=[["Cliente","Telefone","Email","Endereço","Última obra","Responsável"]];[...map.values()].forEach(x=>rows.push([x.cliente.nome,x.cliente.telefone,x.cliente.email,x.cliente.endereco,x.cliente.nomeObra,x.cliente.responsavel]));
+ downloadBlob(new Blob(["\ufeff"+rows.map(r=>r.map(csvCell).join(";")).join("\n")],{type:"text/csv;charset=utf-8"}),"clientes_paisagismo.csv");
+}
+function downloadBlob(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
+function limparTudo(){if(confirm("ATENÇÃO: apagar todos os dados deste aparelho?")&&confirm("Confirma novamente? Esta ação não pode ser desfeita sem backup.")){localStorage.removeItem(KEY);location.reload()}}
+
+document.getElementById("dataVisita").valueAsDate=new Date();
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
+
+<script src="config.js"></script>
+<script type="module" src="cloud.js"></script>
+
+</body>
+</html>

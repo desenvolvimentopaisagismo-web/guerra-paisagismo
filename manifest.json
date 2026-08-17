@@ -1,0 +1,9 @@
+{
+  "name": "Guerra Paisagismo — Visitas",
+  "short_name": "GP Visitas",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4f7f5",
+  "theme_color": "#1f6b45",
+  "description": "Aplicativo de visitas técnicas, diagnóstico e pós-venda em paisagismo."
+}

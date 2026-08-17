@@ -1,0 +1,50 @@
+{
+  "storage_key": "guerraPaisagismoVisitasFinal",
+  "record": {
+    "id": "number",
+    "cliente": {
+      "nome": "string",
+      "telefone": "string",
+      "email": "string",
+      "endereco": "string",
+      "dataVisita": "date",
+      "responsavel": "string",
+      "nomeObra": "string",
+      "dataExecucao": "date",
+      "servicos": "string",
+      "especies": "string",
+      "historicoObs": "string",
+      "satisfacao": "string",
+      "relatoCliente": "string",
+      "possivelGarantia": "string"
+    },
+    "visita": {
+      "estado": "string",
+      "checklist": "object<string,string[]>",
+      "oportunidades": "string[]",
+      "principalOportunidade": "string",
+      "valorPotencial": "number",
+      "potencial": "string",
+      "temperatura": "string",
+      "probabilidade": "number",
+      "prazo": "string",
+      "proximaAcao": "string",
+      "dataProxima": "date",
+      "detalhesAcao": "string",
+      "indicacaoSolicitada": "string",
+      "indicadoNome": "string",
+      "indicadoContato": "string"
+    },
+    "diagnostico": {
+      "sintoma": "string",
+      "semaforo": "string",
+      "descricao": "string",
+      "causas": "string",
+      "perguntas": "string",
+      "encaminhamento": "string",
+      "perguntasRapidas": "string[]"
+    },
+    "fotos": "array<dataURL>",
+    "assinatura": "dataURL"
+  }
+}
